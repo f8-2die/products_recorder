@@ -1,0 +1,25 @@
+<!-- edit-category.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit Category</title>
+</head>
+<body>
+<h1>Edit Category</h1>
+<form th:action="@{/home/updateCategory}" th:object="${category}" method="post" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}">
+
+    <label>Name:</label><br>
+    <input type="text" th:field="*{name}"><br>
+
+    <label>Description:</label><br>
+    <input type="text" th:field="*{description}"><br>
+
+    <label>New Image:</label><br>
+    <input type="file" name="newImageFile"><br> <!-- Поле для загрузки нового изображения -->
+
+    <input type="submit" value="Update Category">
+</form>
+</body>
+</html>

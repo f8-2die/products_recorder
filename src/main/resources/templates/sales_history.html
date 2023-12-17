@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>История продаж</title>
+</head>
+<body>
+<h1>История продаж</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Дата</th>
+        <th>Действие</th>
+        <th>Количество</th>
+        <th>Товар</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Передаем записи в таблицу -->
+    <tr th:each="record : ${records}">
+        <td th:text="${record.id}"></td>
+        <td th:text="${record.date}"></td>
+        <td th:text="${record.action}"></td>
+        <td th:text="${record.quantity}"></td>
+        <td th:text="${record.product.name}"></td>
+    </tr>
+    </tbody>
+</table>
+<a href="/home">На главную</a>
+</body>
+</html>

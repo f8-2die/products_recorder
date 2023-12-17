@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Product List</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<h1>Product List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Category ID</th>
+        <th>Quantity</th>
+        <th>Image</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.description}"></td>
+        <td th:text="${product.category_id}"></td>
+        <td th:text="${product.quantity}"></td>
+        <td>
+            <!-- Отображение изображения продукта -->
+            <img th:if="${product.image}" th:src="@{/home/image/{id}(id=${product.id})}" style="max-width: 100px; max-height: 100px;">
+            <span th:unless="${product.image}">No Image</span>
+        </td>
+
+        <td><a href="#" th:attr="data-url=@{'/home/edit/' + ${product.id}}" class="edit-link">Edit</a></td>
+
+        <td><a th:href="@{'/home/delete/' + ${product.id}}">Delete</a></td>
+    </tr>
+
+    <div id="addProductForm" style="display: none;">
+    <h1>Add Product</h1>
+    <form th:action="@{/home/new}" th:object="${product}" method="post" enctype="multipart/form-data">
+        <label>Name:</label><br>
+        <input type="text" th:field="*{name}"><br>
+
+        <label>Description:</label><br>
+        <input type="text" th:field="*{description}"><br>
+
+        <label>Category ID:</label><br>
+        <input type="text" th:field="*{category_id}"><br>
+
+        <label>Quantity:</label><br>
+        <input type="text" th:field="*{quantity}"><br>
+
+        <label>Image:</label><br>
+        <input type="file" name="imageFile"><br> <!-- Поле для загрузки изображения -->
+
+
+        <input type="submit" value="Add Product">
+    </form>
+    </div>
+
+    <div id="editFormContainer"></div>
+
+
+    </tbody>
+</table>
+
+<!-- Кнопка для открытия/закрытия формы добавления товара -->
+<button onclick="toggleAddProductForm()">Add Product</button>
+<a href="/home">На главную</a> <!-- Добавленная кнопка "На главную" -->
+</body>
+<script>
+    function toggleAddProductForm() {
+        var form = document.getElementById('addProductForm');
+        if (form.style.display === 'none') {
+            form.style.display = 'block';
+        } else {
+            form.style.display = 'none';
+        }
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".edit-link").click(function(e) {
+            e.preventDefault();
+
+            var editUrl = $(this).attr("data-url");
+
+            $.get(editUrl, function(response) {
+                $("#editFormContainer").html(response);
+            });
+        });
+    });
+</script>
+
+
+</html>

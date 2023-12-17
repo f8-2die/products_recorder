@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- head content -->
+</head>
+<body>
+<h1>Categories</h1>
+<ul id="categoryList">
+    <li th:each="category : ${categories}">
+        <h2>
+            <span th:text="${category.id}"></span>
+            <a th:href="@{/home/{categoryId}/files(categoryId=${category.id})}" th:text="${category.name}"></a>
+            <a th:href="@{'/home/edit/category/' + ${category.id}}" class="edit-link">Edit</a>
+            <a th:href="@{'/home/delete/category/' + ${category.id}}" class="delete-link">Delete</a>
+        </h2>
+        <p th:text="${category.description}"></p>
+        <img th:if="${category.image}" th:src="@{/home/category/image/{categoryId}(categoryId=${category.id})}" style="max-width: 100px; max-height: 100px;">
+        <span th:unless="${category.image}">No Image</span>
+
+    </li>
+</ul>
+<!-- Кнопка для открытия/закрытия формы добавления категории -->
+<button onclick="toggleAddCategoryForm()">Add Category</button>
+
+<div id="addCategoryForm" style="display: none;">
+    <h1>Add Category</h1>
+    <form th:action="@{/home/newcategory}" th:object="${category}" method="post" enctype="multipart/form-data">
+        <label>Name:</label><br>
+        <input type="text" th:field="*{name}"><br>
+
+        <label>Description:</label><br>
+        <input type="text" th:field="*{description}"><br>
+
+        <label>Image:</label><br>
+        <input type="file" name="imageFile"><br> <!-- Поле для загрузки изображения -->
+
+        <input type="submit" value="Add Category">
+    </form>
+</div>
+<div id="editCategoryForm"></div>
+
+<a href="/home/allproducts">All Products</a>
+<a th:href="@{/home/records}" class="add-record-link">Добавить запись</a>
+
+
+
+<a href="/home/salesHistory">История продаж</a>
+
+</body>
+<script>
+    function toggleAddCategoryForm() {
+        var form = document.getElementById('addCategoryForm');
+        if (form.style.display === 'none') {
+            form.style.display = 'block';
+        } else {
+            form.style.display = 'none';
+        }
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:inline="javascript">
+    $(document).ready(function() {
+        $(document).on('click', '.edit-link', function(e) {
+            e.preventDefault();
+            var editUrl = $(this).attr("href");
+
+            $.ajax({
+                url: editUrl,
+                type: 'GET',
+                success: function(response) {
+                    $("#editCategoryForm").html(response);
+                },
+                error: function(xhr) {
+                    // Обработка ошибки, если не удалось получить ответ от сервера
+                    console.log("Error:", xhr);
+                }
+            });
+        });
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:inline="javascript">
+    $(document).ready(function() {
+        $(document).on('click', '.delete-link', function(e) {
+            e.preventDefault();
+            if (confirm('Are you sure you want to delete this category?')) {
+                var deleteUrl = $(this).attr("href");
+
+                $.ajax({
+                    url: deleteUrl,
+                    type: 'DELETE',
+                    success: function(response) {
+                        // Обновление списка категорий после успешного удаления
+                        // Например, перезагрузка страницы или удаление только одной категории из списка
+                        location.reload(); // Перезагрузка страницы после удаления категории
+                    },
+                    error: function(xhr) {
+                        console.log("Error:", xhr);
+                    }
+                });
+            }
+        });
+    });
+</script>
+</html>

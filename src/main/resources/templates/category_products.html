@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- head content -->
+</head>
+<body>
+<h1 th:text="${category.name} + ' Products'"></h1>
+<ul id="productList">
+    <li th:each="product : ${products}">
+        <!-- Отображение информации о товаре, например: -->
+        <span th:text="${product.name}"></span>
+        : <span th:text="${product.description}"></span>
+        - <span th:text="${product.quantity}"></span> шт.
+    </li>
+</ul>
+<a href="/home">На главную</a> <!-- Добавленная кнопка "На главную" -->
+<!-- Other content -->
+</body>
+</html>
