@@ -1,19 +1,132 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- head content -->
+    <link rel="stylesheet" href="/css/categoryproduct.css">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Rubik+Mono+One&display=swap" rel="stylesheet">
 </head>
 <body>
-<h1 th:text="${category.name} + ' Products'"></h1>
-<ul id="productList">
-    <li th:each="product : ${products}">
-        <!-- Отображение информации о товаре, например: -->
-        <span th:text="${product.name}"></span>
-        : <span th:text="${product.description}"></span>
-        - <span th:text="${product.quantity}"></span> шт.
-    </li>
-</ul>
-<a href="/home">На главную</a> <!-- Добавленная кнопка "На главную" -->
-<!-- Other content -->
+
+<header class="top-header">
+    <div class="logo">
+        <span>учётка</span>
+    </div>
+    <nav>
+        <a href="/home/allproducts" class="bottom-link">All Products</a>
+        <a href="/home" class="home-link">Home</a>
+    </nav>
+</header>
+
+
+<h1 th:text="${category.name}"></h1>
+
+
+
+<table class="styled-table" id="myTable">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Category ID</th>
+        <th>Quantity</th>
+        <th>Image</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.description}"></td>
+        <td th:text="${product.category_id}"></td>
+        <td th:text="${product.quantity}"></td>
+        <td>
+            <!-- Отображение изображения продукта -->
+            <img th:if="${product.image}" th:src="@{/home/image/{id}(id=${product.id})}" style="max-width: 100px; max-height: 100px;">
+            <span th:unless="${product.image}">No Image</span>
+        </td>
+
+    </tr>
+
+
+    </tbody>
+</table>
+
+
 </body>
+<script>
+    // Функция для сравнения чисел при сортировке
+function compareNumbers(a, b) {
+  return a - b;
+}
+
+// Функция для сортировки таблицы
+function sortTable(n) {
+  let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("myTable");
+  switching = true;
+  dir = "asc";
+
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+
+    for (i = 1; i < rows.length - 1; i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("td")[n];
+      y = rows[i + 1].getElementsByTagName("td")[n];
+
+      if (n === 4) { // Проверяем, если это столбец с количеством (по индексу 4)
+        let xVal = parseInt(x.innerHTML); // Преобразуем значение в числовой тип данных
+        let yVal = parseInt(y.innerHTML);
+
+        if (dir === "asc") {
+          if (xVal > yVal) {
+            shouldSwitch = true;
+            break;
+          }
+        } else if (dir === "desc") {
+          if (xVal < yVal) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+      } else { // Для других столбцов сортировка строк
+        if (dir === "asc") {
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
+        } else if (dir === "desc") {
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+      }
+    }
+
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchcount++;
+    } else {
+      if (switchcount === 0 && dir === "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+
+// Получаем все заголовки таблицы
+let headers = document.querySelectorAll(".styled-table th");
+
+// Добавляем обработчик события для каждого заголовка таблицы
+headers.forEach((th, index) => {
+  th.addEventListener("click", () => {
+    sortTable(index);
+  });
+});
+
+</script>
 </html>

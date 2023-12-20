@@ -2,8 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Добавить запись</title>
+    <link rel="stylesheet" href="/css/recordsstyles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Rubik+Mono+One&display=swap" rel="stylesheet">
 </head>
 <body>
+<header class="top-header">
+    <div class="logo">
+        <span>учётка</span>
+    </div>
+    <nav>
+        <a href="/home" class="home-link">Home</a>
+        <a href="/home/allproducts" class="bottom-link">All Products</a>
+        <a href="/home/salesHistory" class="bottom-link">Sales history</a>
+
+    </nav>
+</header>
+
 <h1>Добавить запись</h1>
 <form action="/home/saveRecord" method="post">
     <label for="category">Выберите категорию:</label>
@@ -32,7 +46,7 @@
 
     <button type="submit">Добавить</button>
 </form>
-<a href="/home">На главную</a>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script th:inline="javascript">
     $(document).ready(function () {

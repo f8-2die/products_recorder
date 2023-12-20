@@ -1,0 +1,90 @@
+.top-header {
+  background-color: #b1c83b;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Стили для названия сайта */
+.logo {
+  font-weight: bold;
+  font-size: 20px;
+   font-family: 'Rubik Mono One', sans-serif;
+}
+
+/* Стили для навигационного меню */
+nav {
+  flex: 1;
+  text-align: center;
+  margin-left: -150px;
+}
+
+nav a {
+  display: inline-block;
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+
+}
+body{
+  background-color: #f5f7e8 ;
+  text-align: center;
+  margin-top: 70px;
+  font-family: 'Balsamiq Sans', sans-serif;
+}
+
+form {
+    width: 50%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label, select, input, button {
+    display: block;
+    margin-bottom: 15px;
+}
+
+select, input, button {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #94ab28;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #758a2f;
+}
+
+a.bottom-link, a.home-link,a.add-record-link {
+    display: inline-block;
+  padding: 10px 20px;
+  background-color: #94ab28;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+a.bottom-link:hover, a.home-link:hover,a.add-record-link:hover{
+
+background-color: #758a2f;
+}
+
+

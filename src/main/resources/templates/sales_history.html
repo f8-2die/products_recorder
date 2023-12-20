@@ -2,10 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>История продаж</title>
+    <link rel="stylesheet" href="/css/saleshistorystyles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Rubik+Mono+One&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<header class="top-header">
+    <div class="logo">
+        <span>учётка</span>
+    </div>
+    <nav>
+        <a href="/home" class="home-link">Home</a>
+        <a href="/home/allproducts" class="bottom-link">All Products</a>
+    </nav>
+</header>
+
+
 <h1>История продаж</h1>
-<table border="1">
+<table border="1"  class="styled-table" id="myTable">
     <thead>
     <tr>
         <th>ID</th>
@@ -26,6 +40,5 @@
     </tr>
     </tbody>
 </table>
-<a href="/home">На главную</a>
 </body>
 </html>

@@ -1,16 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- head content -->
+    <link rel="stylesheet" href="/css/homestyles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Rubik+Mono+One&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header class="top-header">
+        <div class="logo">
+                <span>учётка</span>
+            </div>  
+        <nav>                    
+            <a href="/home/allproducts" class="bottom-link">All Products</a>
+            <a th:href="@{/home/records}" class="add-record-link">Добавить запись</a>
+            <a href="/home/salesHistory"class="bottom-link">История продаж</a>
+            <a onclick="toggleAddCategoryForm()" class="bottom-link">Add Category</a>
+        </nav>
+</header>
 <h1>Categories</h1>
 <ul id="categoryList">
     <li th:each="category : ${categories}">
         <h2>
             <span th:text="${category.id}"></span>
-            <a th:href="@{/home/{categoryId}/files(categoryId=${category.id})}" th:text="${category.name}"></a>
-            <a th:href="@{'/home/edit/category/' + ${category.id}}" class="edit-link">Edit</a>
+            <a th:href="@{/home/{categoryId}/files(categoryId=${category.id})}" th:text="${category.name}" class="category-link"></a><br>
+            <a th:href="@{'/home/edit/category/' + ${category.id}}" onclick="toggleEditCategoryForm()" class="edit-link">Edit</a>
             <a th:href="@{'/home/delete/category/' + ${category.id}}" class="delete-link">Delete</a>
         </h2>
         <p th:text="${category.description}"></p>
@@ -19,12 +33,11 @@
 
     </li>
 </ul>
-<!-- Кнопка для открытия/закрытия формы добавления категории -->
-<button onclick="toggleAddCategoryForm()">Add Category</button>
 
 <div id="addCategoryForm" style="display: none;">
     <h1>Add Category</h1>
     <form th:action="@{/home/newcategory}" th:object="${category}" method="post" enctype="multipart/form-data">
+
         <label>Name:</label><br>
         <input type="text" th:field="*{name}"><br>
 
@@ -37,19 +50,21 @@
         <input type="submit" value="Add Category">
     </form>
 </div>
-<div id="editCategoryForm"></div>
 
-<a href="/home/allproducts">All Products</a>
-<a th:href="@{/home/records}" class="add-record-link">Добавить запись</a>
-
-
-
-<a href="/home/salesHistory">История продаж</a>
+<div id="editCategoryForm" style="display: none;"></div>
 
 </body>
 <script>
     function toggleAddCategoryForm() {
         var form = document.getElementById('addCategoryForm');
+        if (form.style.display === 'none') {
+            form.style.display = 'block';
+        } else {
+            form.style.display = 'none';
+        }
+    }
+    function toggleEditCategoryForm() {
+        var form = document.getElementById('editCategoryForm');
         if (form.style.display === 'none') {
             form.style.display = 'block';
         } else {
@@ -68,7 +83,7 @@
                 url: editUrl,
                 type: 'GET',
                 success: function(response) {
-                    $("#editCategoryForm").html(response);
+                    $("#editCategoryForm").html(response);                    
                 },
                 error: function(xhr) {
                     // Обработка ошибки, если не удалось получить ответ от сервера
