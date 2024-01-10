@@ -25,7 +25,7 @@ import java.util.Optional;
 public class CategoryController {
 
     private final CategoryRepository categoryRepository;
-    private final ProductRepository productRepository; // Предположим, у вас есть репозиторий Product
+    private final ProductRepository productRepository;
 
     @Autowired
     public CategoryController(CategoryRepository categoryRepository, ProductRepository productRepository) {
@@ -38,11 +38,11 @@ public class CategoryController {
         List<Category> categoryList = categoryRepository.findAll();
         model.addAttribute("categories", categoryList);
 
-        // Создание объекта Category для использования в форме добавления категории
+
         Category category = new Category();
         model.addAttribute("category", category);
 
-        return "category_list"; // Обновленное имя HTML-файла для списка категорий
+        return "category_list";
     }
 
 
@@ -51,10 +51,10 @@ public class CategoryController {
         Optional<Category> categoryOptional = categoryRepository.findById(categoryId);
         if (categoryOptional.isPresent()) {
             Category category = categoryOptional.get();
-            List<Product> products = productRepository.findByCategoryId(categoryId); // Метод findByCategoryId нужно реализовать в вашем ProductRepository
+            List<Product> products = productRepository.findByCategoryId(categoryId);
             model.addAttribute("category", category);
             model.addAttribute("products", products);
-            return "category_products"; // Имя вашего HTML-файла для списка товаров в этой категории
+            return "category_products";
         } else {
             return "redirect:/categories/list";
         }
@@ -64,9 +64,9 @@ public class CategoryController {
         Optional<Category> categoryOptional = categoryRepository.findById(categoryId);
         if (categoryOptional.isPresent()) {
             Category category = categoryOptional.get();
-            byte[] image = category.getImage(); // Получаем байты изображения из объекта Category
+            byte[] image = category.getImage();
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG); // Измените MediaType в зависимости от типа изображения
+            headers.setContentType(MediaType.IMAGE_JPEG);
             return new ResponseEntity<>(image, headers, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -81,7 +81,7 @@ public class CategoryController {
                 category.setImage(imageBytes);
             } catch (IOException e) {
                 e.printStackTrace();
-                // Обработка ошибки чтения изображения, если необходимо
+
             }
         }
 
@@ -89,17 +89,14 @@ public class CategoryController {
         return "redirect:/home";
     }
 
-    // ... (остальной код контроллера)
-    // Метод для отображения формы редактирования категории по ID
     @GetMapping("/edit/category/{categoryId}")
     public String showEditCategoryForm(@PathVariable Long categoryId, Model model) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category Id:" + categoryId));
         model.addAttribute("category", category);
-        return "edit-category"; // Имя вашего HTML-файла для редактирования категории
+        return "edit-category";
     }
-    // Метод для обновления категории
-    // Метод для обновления категории с новым изображением
+
     @PostMapping("/updateCategory")
     public String updateCategoryWithImage(@ModelAttribute("category") Category updatedCategory,
                                           @RequestParam("newImageFile") MultipartFile newImageFile) {
@@ -108,15 +105,15 @@ public class CategoryController {
 
         category.setName(updatedCategory.getName());
         category.setDescription(updatedCategory.getDescription());
-        // Другие поля категории, которые требуется обновить
+
 
         if (!newImageFile.isEmpty()) {
             try {
                 byte[] newImageBytes = newImageFile.getBytes();
-                category.setImage(newImageBytes); // Обновление изображения категории
+                category.setImage(newImageBytes);
             } catch (IOException e) {
                 e.printStackTrace();
-                // Обработка ошибки чтения изображения, если необходимо
+
             }
         }
 

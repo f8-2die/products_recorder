@@ -14,8 +14,8 @@ public class Category {
     private String description;
 
     @Lob
-    private byte[] image; // Добавляем поле для хранения изображения как массива байтов
-    // Геттеры и сеттеры для поля image
+    private byte[] image;
+
     public byte[] getImage() {
         return image;
     }
@@ -31,6 +31,7 @@ public class Category {
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
@@ -40,9 +41,7 @@ public class Category {
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
 }

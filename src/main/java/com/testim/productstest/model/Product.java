@@ -16,8 +16,7 @@ public class Product {
     private Long category_id;
     private int quantity;
     @Lob
-    private byte[] image; // Добавляем поле для хранения изображения как массива байтов
-    // Геттеры и сеттеры для поля image
+    private byte[] image;
     public byte[] getImage() {
         return image;
     }
@@ -65,8 +64,5 @@ public class Product {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
-
-
 
 }

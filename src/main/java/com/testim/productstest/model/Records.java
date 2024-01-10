@@ -19,10 +19,7 @@ public class Records {
 
     private Date date;
 
-    // Constructors, getters, setters...
-    private String action; // Новая колонка для хранения информации о действии (покупка/продажа)
-
-    // Конструкторы, геттеры и сеттеры для остальных полей...
+    private String action;
 
     public String getAction() {
         return action;
@@ -31,7 +28,7 @@ public class Records {
     public void setAction(String action) {
         this.action = action;
     }
-    // Getters and setters
+
     public Long getId() {
         return id;
     }

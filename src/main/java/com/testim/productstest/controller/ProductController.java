@@ -35,7 +35,7 @@ public class ProductController {
             byte[] image = product.getImage(); // Получаем байты изображения из объекта Product
             // Отправляем изображение в ответе HTTP
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG); // Измените MediaType в зависимости от типа изображения
+            headers.setContentType(MediaType.IMAGE_JPEG);
             return new ResponseEntity<>(image, headers, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -62,11 +62,9 @@ public class ProductController {
     @GetMapping("/new")
     public String showAddProductForm(Model model) {
         model.addAttribute("product", new Product());
-        return "products"; // Шаблон HTML для создания нового товара
+        return "products";
     }
 
-
-    // Ваш метод для добавления нового продукта с изображением
     @PostMapping("/new")
     public String addNewProduct(@ModelAttribute("product") Product product,
                                 @RequestParam("imageFile") MultipartFile file) {
@@ -76,7 +74,6 @@ public class ProductController {
                 product.setImage(imageBytes);
             } catch (IOException e) {
                 e.printStackTrace();
-                // Обработка ошибки чтения изображения, если необходимо
             }
         }
 
@@ -84,15 +81,11 @@ public class ProductController {
         return "redirect:/home/allproducts";
     }
 
-
-
-
-    // Метод для обработки запроса на удаление товара по ID
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
         // Логика удаления товара из базы данных
         productRepository.deleteById(id);
-        return "redirect:/home/allproducts"; // Перенаправление на страницу со списком товаров
+        return "redirect:/home/allproducts";
     }
 
     // Метод для отображения формы редактирования товара
@@ -101,12 +94,9 @@ public class ProductController {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + id));
         model.addAttribute("product", product);
-        return "edit-product :: editForm"; // используем фрагмент шаблона для передачи только формы редактирования
+        return "edit-product :: editForm";
     }
 
-
-
-    // Метод для обработки запроса на редактирование товара
 // Метод для обработки запроса на редактирование товара
     @PostMapping("/edit/{id}")
     public String editProduct(@PathVariable Long id,
@@ -127,7 +117,6 @@ public class ProductController {
                 product.setImage(newImageBytes); // Установка нового изображения
             } catch (IOException e) {
                 e.printStackTrace();
-                // Обработка ошибки чтения изображения, если необходимо
             }
         }
 

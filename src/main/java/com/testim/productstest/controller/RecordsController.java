@@ -67,7 +67,7 @@ public class RecordsController {
         record.setProduct(product);
         record.setAction(action);
         record.setQuantity(quantity);
-        record.setDate(new Date()); // Установка текущей даты
+        record.setDate(new Date());
 
         recordsRepository.save(record);
 
